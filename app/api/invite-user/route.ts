@@ -13,9 +13,15 @@ export async function POST(request: Request) {
     const recipientEmail = "aadityakolhapure28@gmail.com";
 
     const { data, error } = await resend.emails.send({
+<<<<<<< HEAD
       from: "onboarding@resend.dev", // Using Resend's default sender
       to: recipientEmail,
       subject: "Invitation to join a project",
+=======
+      from: 'ProjeX <noreply@resend.dev>',
+      to,
+      subject: 'Invitation to join a project',
+>>>>>>> 1076ce9f9da75d3b809c07ee9eb83f09bdb299b3
       react: InviteUserEmail({
         username,
         projectName,
