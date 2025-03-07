@@ -1,5 +1,6 @@
 import React from 'react';
 import { LoginForm } from './LoginForm';
+import { BorderBeam } from '@/components/magicui/border-beam';
 
 const LoginPage = () => {
   return (

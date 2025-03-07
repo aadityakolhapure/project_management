@@ -12,7 +12,12 @@ const queryClient = new QueryClient();
 export function AppProvider({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
+      <ThemeProvider
+        // themes={{
+        //   light: 'theme-light',
+        // }}
+        defaultTheme="light" // ✅ Set light as the default theme
+      >
         <div className="h-16">
           <Header />
         </div>

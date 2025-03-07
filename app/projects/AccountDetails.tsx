@@ -81,7 +81,7 @@ export const AccountDetails = ({ initialData }: AccountDetailsProps) => {
   };
 
   return (
-    <div className="space-y-4 bg-violet-300 p-5 border border-violet-400 dark:bg-slate-900 rounded" >
+    <div className="space-y-4 bg-violet-50 p-5 border border-violet-100 dark:bg-slate-900 rounded-sm shadow-lg hover:shadow-md" >
       <ProfilePhotoUploader
         currentPhotoUrl={userData.avatar}
         userProvider={userData.provider}
@@ -204,7 +204,7 @@ export const AccountDetails = ({ initialData }: AccountDetailsProps) => {
 
           <Button
             onClick={() => setIsEditing(true)}
-            className=" w-full mr-4 mt-4 color-violet-600 hover:bg-violet-700"
+            className=" w-full mr-4 mt-4 bg-violet-600 hover:bg-violet-700"
           >
             Edit Profile
           </Button>

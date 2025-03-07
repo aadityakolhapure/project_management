@@ -29,24 +29,33 @@ export const ProjectList = ({
 
   return (
     <div className="border rounded-md">
-      <ProjectListHeader
-        tab={tab}
-        count={projects.length}
-        sortOrder={sortOrder}
-        onSort={onSort}
-      />
-      <div>
-        {projects.map((project) => (
-          <ProjectItem
-            key={project.id}
-            project={project}
-            tab={tab}
-            setProjectToClose={setProjectToClose}
-            setProjectToReopen={setProjectToReopen}
-            setProjectToDelete={setProjectToDelete}
-          />
-        ))}
+  <ProjectListHeader
+    tab={tab}
+    count={projects.length}
+    sortOrder={sortOrder}
+    onSort={onSort}
+  />
+  <div>
+    {projects.map((project, index) => (
+      <div
+        key={project.id}
+        className={`${
+          index % 2 === 0
+            ? "bg-white dark:bg-gray-800" // Even → White (Dark: Gray)
+            : "bg-purple-50 dark:bg-gray-900" // Odd → Violet (Dark: Deep Violet)
+        }`}
+      >
+        <ProjectItem
+          project={project}
+          tab={tab}
+          setProjectToClose={setProjectToClose}
+          setProjectToReopen={setProjectToReopen}
+          setProjectToDelete={setProjectToDelete}
+        />
       </div>
-    </div>
+    ))}
+  </div>
+</div>
+
   );
 };

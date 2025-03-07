@@ -41,7 +41,7 @@ export const ProjectTabs = ({
         <span>Closed Projects</span>
       </TabsTrigger>
       <TabsTrigger value="all-projects">
-        <SquareKanban className="w-4 h-4 mr-2" />
+        <SquareKanban className="w-4 h-4 mr-2 " />
         <span>All Projects</span>
       </TabsTrigger>
     </TabsList>
