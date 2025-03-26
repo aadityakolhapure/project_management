@@ -32,6 +32,7 @@ export function LoginForm() {
     e.preventDefault();
     try {
       setIsLoading(true);
+      
       await auth.signIn(email, password);
       router.push('/projects');
       router.refresh();
@@ -50,9 +51,14 @@ export function LoginForm() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4">
+    <div className="flex justify-center items-center min-h-screen px-4 relative">
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80 z-10">
+          <span className="text-gray-600 text-lg">Redirecting...</span>
+          <Icons.spinner className="h-12 w-12 animate-spin text-violet-600" />
+        </div>
+      )}
       <div className="relative w-full sm:w-96">
-        {/* Wrap the Card and BorderBeam inside a container */}
         <Card className="w-full bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition">
           <form onSubmit={handleSubmit}>
             <CardHeader className="text-center">
@@ -61,7 +67,6 @@ export function LoginForm() {
                 Welcome back! Enter your credentials below
               </CardDescription>
             </CardHeader>
-
             <CardContent className="grid gap-4">
               <p className="text-center text-sm">
                 Don&apos;t have an account?{' '}
@@ -69,7 +74,6 @@ export function LoginForm() {
                   Create one
                 </Link>
               </p>
-
               <div className="grid gap-2">
                 <Label htmlFor="email" className="text-gray-700">Email</Label>
                 <Input
@@ -83,7 +87,6 @@ export function LoginForm() {
                   className="border-gray-300 focus:border-violet-500 focus:ring-violet-500"
                 />
               </div>
-
               <div className="grid gap-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password" className="text-gray-700">Password</Label>
@@ -101,7 +104,6 @@ export function LoginForm() {
                   className="border-gray-300 focus:border-violet-500 focus:ring-violet-500"
                 />
               </div>
-
               <Button 
                 className="w-full bg-violet-600 hover:bg-violet-700 text-white py-2 rounded-lg font-semibold shadow-md transition"
                 type="submit" 
@@ -113,14 +115,11 @@ export function LoginForm() {
                 Sign In
               </Button>
             </CardContent>
-
             <CardFooter className="flex justify-center">
               <OAuthSignIn isLoading={isLoading} onLoadingChange={setIsLoading} />
             </CardFooter>
           </form>
         </Card>
-
-        {/* Place the BorderBeam inside this container to ensure it wraps only the card */}
         <BorderBeam duration={8} size={100} className="absolute inset-0" />
       </div>
     </div>

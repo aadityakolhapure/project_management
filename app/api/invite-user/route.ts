@@ -1,36 +1,32 @@
-import { InviteUserEmail } from "@/emails/invite-user";
+import nodemailer from "nodemailer";
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { NextRequest } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const { username, projectName, invitedByUsername, projectId, role } =
-      await request.json();
+    const { username, projectName, invitedByUsername, projectId, role, email } = await request.json();
 
-    // Force all emails to be sent to Aaditya Kolhapure only
-    const recipientEmail = "aadityakolhapure28@gmail.com";
-
-    const { data, error } = await resend.emails.send({
-      from: "onboarding@resend.dev", // Using Resend's default sender
-      to: recipientEmail,
-      subject: "Invitation to join a project",
-
-      react: InviteUserEmail({
-        username,
-        projectName,
-        invitedByUsername,
-        inviteLink: `${request.headers.get("origin")}/invites/${projectId}?role=${role}`,
-      }),
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD, // Use App Password, NOT your real password!
+      },
     });
 
-    if (error) {
-      return NextResponse.json({ success: false, error }, { status: 400 });
-    }
+    const mailOptions = {
+      from: process.env.EMAIL_USERNAME,
+      to: email || "aadityakolhapure28@gmail.com", // Default recipient
+      subject: "Invitation to Join a Project",
+      text: `Hi ${username},\n\n${invitedByUsername} has invited you to join the project "${projectName}".\n\nAccept the invitation here: ${request.headers.get("origin")}/invites/${projectId}?role=${role}`,
+    };
 
-    return NextResponse.json({ success: true, message: "Invitation sent successfully to Aaditya Kolhapure", data });
+    await transporter.sendMail(mailOptions);
+
+    return NextResponse.json({ success: true, message: "Email sent successfully!" });
   } catch (error) {
+    console.error("Email Error:", error);
     return NextResponse.json({ success: false, error }, { status: 500 });
   }
 }

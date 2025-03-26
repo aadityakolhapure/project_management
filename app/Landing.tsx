@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import { StickyScrollRevealDemo } from "@/components/features";
 
 const features = [
   "Intuitive Kanban boards",
@@ -42,7 +43,7 @@ const LandingPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen  bg-gradient-to-r from-violet-50 to-purple-200 dark:from-slate-900 dark:to-slate-800 ">
+    <div className="min-h-screen  bg-gradient-to-r from-slate-50 to-slate-200 dark:from-slate-900 dark:to-slate-800 ">
       {/* Hero Section */}
       <div className="container pt-32 pb-20">
         {/* Content */}
@@ -50,12 +51,14 @@ const LandingPage: React.FC = () => {
           <div className="space-y-6">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
               Organize your work,
+              
               <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-400">
                 One task at a time
               </span>
+              
             </h1>
-            <p className="text-[15px] text-muted-foreground max-w-[350px] mx-auto bg-violet-600 bg-opacity-10 p-2 rounded-full border-2 border-violet-600">
+            <p className="text-[15px] text-muted-foreground max-w-[350px] mx-auto bg-violet-600  bg-opacity-10 p-2 rounded-full border-2 border-violet-600">
               <span className="text-slate-600 dark:text-white">
                 Streamline Your Workflow with{" "}
               </span>
@@ -110,7 +113,7 @@ const LandingPage: React.FC = () => {
         </div>
 
         {/* App Screenshot with Fade Effect */}
-        <div className="relative w-full max-w-[1200px] mx-auto mt-20">
+        {/* <div className="relative w-full max-w-[1200px] mx-auto mt-20">
           <div className="relative">
             <div className="relative bg-background/95 backdrop-blur rounded-lg shadow-2xl">
               <Image
@@ -128,7 +131,7 @@ const LandingPage: React.FC = () => {
               <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background"></div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Background Gradient Effect */}
@@ -137,6 +140,30 @@ const LandingPage: React.FC = () => {
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="h-[40rem] w-[40rem] rounded-full bg-purple-500/5 blur-3xl"></div>
         </div>
+      </div>
+
+      <div className="h-full w-full bg-gradient-to-r from-violet-100 to-purple-200 dark:from-slate-900 dark:to-slate-700 shadow-inner border">
+        <div className="relative pt-8">
+          <div className="container mx-auto text-center">
+            <h1 className="text-5xl font-extrabold text-slate-700 dark:text-white relative inline-block">
+              Features
+              <span className="absolute left-1/2 bottom-0 w-20 h-1 bg-violet-600 dark:bg-violet-400 rounded-full transform -translate-x-1/2 animate-pulse"></span>
+            </h1>
+            <p className="mt-4 text-lg text-black/80 dark:text-white/80 max-w-2xl mx-auto">
+              Discover the powerful capabilities of Brainwave AI, designed to
+              optimize workflow automation and enhance productivity.
+            </p>
+          </div>
+        </div>
+
+        <StickyScrollRevealDemo />
+      </div>
+
+      <div className="h-full w-full bg-violet-100">
+        <div className="container py-15">
+          <h1 className="text-[40px] font-bold text-center pt-10">Pricing</h1>
+        </div>
+        {/* <Pricing /> */}
       </div>
     </div>
   );

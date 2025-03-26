@@ -11,6 +11,9 @@ import type { User } from "@supabase/supabase-js";
 import { usePathname } from "next/navigation";
 import { useAccessStore } from "@/stores/useAccessStore";
 
+import Image from 'next/image';
+import logo from '@/public/logo.png';
+
 interface HeaderProps {
   className?: string;
 }
@@ -48,12 +51,12 @@ export const Header = ({ className }: HeaderProps) => {
   }
 
   return (
-    <header className="z-[100] fixed top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="z-[100] fixed top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm ">
       <div className="container flex h-16 items-center justify-between">
         <Link
           href={user ? "/projects" : "/"}
           className="flex items-center space-x-2 font-bold text-xl hover:text-primary transition-colors"
-        >
+        > <Image src={logo} alt="Brainwave" className="w-10 h-10"/>
           BRAINWAVE
         </Link>
 
