@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { Github, Option, Chrome, Slack, Database, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
@@ -11,12 +12,25 @@ import type { User } from "@supabase/supabase-js";
 import { StickyScrollRevealDemo } from "@/components/features";
 import { BoxRevealDemo } from "@/components/secondModule";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
+import BrainwaveHeroSection from "@/components/firstSection";
+import PrivacySection from "@/components/privacy";
+
 const features = [
   "Intuitive Kanban boards",
   "Real-time collaboration",
   "Custom workflows",
   "Advanced task tracking",
 ];
+
+const NotionIcon = () => (
+  <Image
+    src="/notion-logo-svgrepo-com.svg"
+    alt="Notion"
+    width={32}
+    height={32}
+    className="dark:invert"
+  />
+);
 
 const LandingPage: React.FC = () => {
   const { resolvedTheme } = useTheme();
@@ -46,91 +60,62 @@ const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen  bg-gradient-to-r from-slate-50 to-slate-200 dark:from-slate-900 dark:to-slate-800 ">
       {/* Hero Section */}
-      <div className="container pt-32 pb-20">
-        {/* Content */}
-        <div className="max-w-[800px] mx-auto text-center space-y-8 mb-20">
-          <div className="space-y-6">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-              Organize your work,
-              <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-400">
-                One task at a time
+      <BrainwaveHeroSection />
+
+      {/* <div className="container mx-auto text-center py-10 bg-gradient-to-r from-violet-50 to-purple-100 dark:from-slate-900 dark:to-slate-800 ">
+        <h2 className="text-3xl font-bold mb-2">
+          Integrate with your favorite tools
+        </h2>
+        <AnimatedBeamMultipleOutputDemo />
+      </div> */}
+
+      <div className="relative z-10 w-full bg-gradient-to-r from-violet-50 to-purple-100 dark:from-slate-900 dark:to-slate-800 py-16 px-6 md:px-12">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl font-extrabold text-slate-800 dark:text-white mb-4">
+            Integrate with your favorite tools
+          </h2>
+          <p className="text-lg text-slate-600 dark:text-slate-300 mb-12 max-w-2xl mx-auto">
+            Brainwave AI seamlessly connects with your workflow tools to
+            automate tasks and supercharge your productivity.
+          </p>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 items-center justify-center">
+            <div className="flex flex-col items-center gap-2">
+              <Github className="h-8 w-8 text-gray-700 dark:text-gray-300" />
+              <span className="text-sm font-medium dark:text-white">
+                GitHub
               </span>
-            </h1>
-            <p className="text-[15px] text-muted-foreground max-w-[350px] mx-auto bg-violet-600  bg-opacity-10 p-2 rounded-full border-2 border-violet-600">
-              <span className="text-slate-600 dark:text-white">
-                Streamline Your Workflow with{" "}
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <NotionIcon />
+              <span className="text-sm font-medium dark:text-white">
+                Notion
               </span>
-              <span className="text-purple-500">BRAINWAVE</span>
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {user ?
-              -(
-                <Button size="lg" asChild>
-                  <Link href="/projects" className="gap-2">
-                    View Projects <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-              )
-            : <>
-                <Button
-                  size="lg"
-                  className="bg-purple-600 hover:bg-purple-700"
-                  asChild
-                >
-                  <Link href="/create-account" className="gap-2">
-                    Get Started <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-purple-500 text-purple-500"
-                  asChild
-                >
-                  <Link href="/login">Sign in</Link>
-                </Button>
-              </>
-            }
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-6 pt-6 max-w-[600px] mx-auto ">
-            {features.map((feature) => (
-              <div
-                key={feature}
-                className="flex items-center gap-3  p-3 rounded-full shadow-md transition hover:scale-105 hover:shadow-lg"
-              >
-                <CheckCircle2 className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-                <span className="text-gray-800 dark:text-gray-300 font-medium bg-opacity-20">
-                  {feature}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* App Screenshot with Fade Effect */}
-        {/* <div className="relative w-full max-w-[1200px] mx-auto mt-20">
-          <div className="relative">
-            <div className="relative bg-background/95 backdrop-blur rounded-lg shadow-2xl">
-              <Image
-                src={
-                  resolvedTheme === "dark" ? "/projex-dark.png" : (
-                    "/projex-light.png"
-                  )
-                }
-                alt="App preview"
-                width={1824}
-                height={1080}
-                className="rounded-lg w-full"
-                priority
-              />
-              <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background"></div>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Chrome className="h-8 w-8 text-gray-700 dark:text-gray-300" />
+              <span className="text-sm font-medium dark:text-white">
+                Chrome
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Slack className="h-8 w-8 text-gray-700 dark:text-gray-300" />
+              <span className="text-sm font-medium dark:text-white">Slack</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Database className="h-8 w-8 text-gray-700 dark:text-gray-300" />
+              <span className="text-sm font-medium dark:text-white">
+                Supabase
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Zap className="h-8 w-8 text-gray-700 dark:text-gray-300" />
+              <span className="text-sm font-medium dark:text-white">
+                Zapier
+              </span>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
 
       {/* Background Gradient Effect */}
@@ -141,7 +126,7 @@ const LandingPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="h-full w-full bg-gradient-to-r from-violet-100 to-purple-200 dark:from-slate-900 dark:to-slate-800  shadow-inner border">
+      {/* <div className="h-full w-full bg-gradient-to-r from-violet-100 to-purple-200 dark:from-slate-900 dark:to-slate-800  shadow-inner border">
         <div className="relative pt-8">
           <div className="container mx-auto text-center">
             <h1 className="text-5xl font-extrabold text-gradient-radial from-blue-600 to-violet-400 relative inline-block">
@@ -156,7 +141,9 @@ const LandingPage: React.FC = () => {
         </div>
 
         <StickyScrollRevealDemo />
-      </div>
+      </div> */}
+
+<PrivacySection />
 
       <div className="h-full w-full bg-gradient-to-r from-slate-50 to-slate-200 dark:from-slate-900 dark:to-slate-700 pt-10 pb-10 shadow-inner border">
         <div className="container py-15">

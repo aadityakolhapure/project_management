@@ -17,6 +17,15 @@ import TextEditor from '@/components/TextEditor';
 import { useProjectAccess } from '@/hooks/useProjectAccess';
 import { useAccessStore } from '@/stores/useAccessStore';
 import { ProjectAction } from '@/consts';
+import {
+  FileEdit,
+  FileText,
+  Info,
+  Lock,
+  Trash2,
+  Save,
+  FolderX,
+} from 'lucide-react';
 
 interface ProjectSettingsFormProps {
   project: IProject;
@@ -31,6 +40,7 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
     description: project.description,
     readme: project.readme,
   });
+
   const { toast } = useToast();
   const router = useRouter();
   const { can, role, isLoading } = useProjectAccess({
@@ -40,7 +50,10 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
   if (isLoading) return <div>Loading...</div>;
   if (!can(ProjectAction.VIEW_SETTINGS)) {
     return (
-      <div>You don&apos;t have permission to manage project settings.</div>
+      <div className="text-red-500 text-sm flex items-center gap-2">
+        <Lock className="w-4 h-4" />
+        You don&apos;t have permission to manage project settings.
+      </div>
     );
   }
 
@@ -96,9 +109,12 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
 
   return (
     <>
-      <div className="space-y-4 max-w-2xl">
+      <div className="space-y-6 max-w-2xl">
         <div className="space-y-2">
-          <Label>Project Name</Label>
+          <Label className="flex items-center gap-2 text-base font-semibold">
+            <FileEdit className="w-4 h-4 text-primary" />
+            Project Name
+          </Label>
           <Input
             value={formData.name}
             onChange={(e) =>
@@ -108,7 +124,10 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
         </div>
 
         <div className="space-y-2">
-          <Label>Description</Label>
+          <Label className="flex items-center gap-2 text-base font-semibold">
+            <Info className="w-4 h-4 text-primary" />
+            Description
+          </Label>
           <Textarea
             value={formData.description}
             onChange={(e) =>
@@ -118,7 +137,10 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
         </div>
 
         <div className="space-y-2">
-          <Label>README</Label>
+          <Label className="flex items-center gap-2 text-base font-semibold">
+            <FileText className="w-4 h-4 text-primary" />
+            README
+          </Label>
           <TextEditor
             content={formData.readme}
             onChange={(text) =>
@@ -131,58 +153,62 @@ export function ProjectSettingsForm({ project }: ProjectSettingsFormProps) {
         <Button
           onClick={handleUpdateProject}
           disabled={isSaving}
-          className={cn(secondaryBtnStyles)}
+          className={cn(secondaryBtnStyles, 'gap-2')}
         >
+          <Save className="w-4 h-4" />
           {isSaving ? 'Saving...' : 'Save Changes'}
         </Button>
       </div>
 
+      {/* DANGER ZONE */}
       <div className="my-20">
-        <h1 className="text-xl my-3">Danger zone</h1>
-        <div className="border border-red-500 rounded-md">
+        <h1 className="text-xl my-4 font-semibold flex items-center gap-2 text-red-600 dark:text-red-400">
+          <Trash2 className="w-5 h-5" />
+          Danger Zone
+        </h1>
+        <div className="border border-red-500 dark:border-red-400 rounded-md divide-y divide-red-400 dark:divide-red-300">
           {can(ProjectAction.CLOSE_PROJECT) && (
             <div className="flex justify-between items-center px-4 py-3">
               <div>
-                <p className="text-sm font-medium">Close Project</p>
-                <p className="text-sm text-gray-800 dark:text-gray-400">
-                  Closing a project will disable its workflows & remove it from
+                <p className="text-sm font-semibold text-red-600 dark:text-red-400">
+                  Close Project
+                </p>
+                <p className="text-sm text-muted-foreground max-w-md">
+                  Closing a project will disable its workflows and remove it from
                   the list of open projects.
                 </p>
               </div>
               <Button
-                className={cn(
-                  secondaryBtnStyles,
-                  'text-red-500 dark:text-red-400'
-                )}
+                variant="ghost"
+                className="text-red-500 dark:text-red-400 hover:underline"
                 onClick={() => setShowCloseDialog(true)}
               >
-                Close this project
+                <FolderX className="w-4 h-4 mr-1" />
+                Close
               </Button>
             </div>
           )}
 
           {can(ProjectAction.DELETE_PROJECT) && (
-            <>
-              <Separator className="my-2" />
-              <div className="flex justify-between items-center px-4 py-3">
-                <div>
-                  <p className="text-sm font-medium">Delete Project</p>
-                  <p className="text-sm text-gray-800 dark:text-gray-400">
-                    Once you delete a project, there is no going back. Please be
-                    certain.
-                  </p>
-                </div>
-                <Button
-                  className={cn(
-                    secondaryBtnStyles,
-                    'text-red-500 dark:text-red-400'
-                  )}
-                  onClick={() => setShowDeleteDialog(true)}
-                >
-                  Delete this project
-                </Button>
+            <div className="flex justify-between items-center px-4 py-3">
+              <div>
+                <p className="text-sm font-semibold text-red-600 dark:text-red-400">
+                  Delete Project
+                </p>
+                <p className="text-sm text-muted-foreground max-w-md">
+                  Once you delete a project, there is no going back. Please be
+                  absolutely certain.
+                </p>
               </div>
-            </>
+              <Button
+                variant="ghost"
+                className="text-red-500 dark:text-red-400 hover:underline"
+                onClick={() => setShowDeleteDialog(true)}
+              >
+                <Trash2 className="w-4 h-4 mr-1" />
+                Delete
+              </Button>
+            </div>
           )}
         </div>
       </div>

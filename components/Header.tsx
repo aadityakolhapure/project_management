@@ -1,18 +1,17 @@
 "use client";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { User } from "@supabase/supabase-js";
+import { createClient } from "@/utils/supabase/client";
+import { useAccessStore } from "@/stores/useAccessStore";
 import { ThemeToggle } from "./ThemeToggle";
 import { UserMenu } from "./UserMenu";
-import Link from "next/link";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import type { User } from "@supabase/supabase-js";
-import { usePathname } from "next/navigation";
-import { useAccessStore } from "@/stores/useAccessStore";
-
-import Image from 'next/image';
-import logo from '@/public/logo.png';
+import logo from "@/public/logo.png";
 
 interface HeaderProps {
   className?: string;
@@ -27,18 +26,16 @@ export const Header = ({ className }: HeaderProps) => {
   const isLandingPage = pathname === "/";
 
   useEffect(() => {
-    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       setIsLoading(false);
     });
 
-    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!session) {
-        useAccessStore.getState().reset(); // Reset when session ends
+        useAccessStore.getState().reset();
       }
       setUser(session?.user ?? null);
     });
@@ -46,37 +43,45 @@ export const Header = ({ className }: HeaderProps) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  if (isLoading) {
-    return null; // or a loading spinner
-  }
+  if (isLoading) return null;
 
   return (
-    <header className="z-[100] fixed top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm ">
-      <div className="container flex h-16 items-center justify-between">
+    <header
+      className={cn(
+        "fixed top-0 left-0 w-full z-50 border-b border-border bg-background/95 backdrop-blur-md shadow-sm supports-[backdrop-filter]:bg-background/60 transition-all",
+        className
+      )}
+    >
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        {/* Logo */}
         <Link
           href={user ? "/projects" : "/"}
-          className="flex items-center space-x-2 font-bold text-xl hover:text-primary transition-colors"
-        > <Image src={logo} alt="Brainwave" className="w-10 h-10"/>
-          BRAINWAVE
+          className="flex items-center gap-2 text-lg font-semibold tracking-tight hover:text-primary transition-colors"
+        >
+          <Image src={logo} alt="Brainwave Logo" width={36} height={36} className="rounded-sm" />
+          <span className="hidden sm:inline-block">BRAINWAVE</span>
         </Link>
 
+        {/* Right Section */}
         <div className="flex items-center gap-4">
-          {user ?
+          {/* Auth Buttons or User Menu */}
+          {user ? (
             <UserMenu user={user} />
-          : <div className="flex items-center gap-3">
-              {isLandingPage && (
-                <>
-                  <Button variant="ghost" asChild>
-                    <Link href="/login">Sign in</Link>
-                  </Button>
-                  <Button asChild>
-                    <Link href="/create-account">Get Started</Link>
-                  </Button>
-                </>
-              )}
-            </div>
-          }
-          <div className="border-l pl-4 dark:border-gray-800 relative z-10">
+          ) : (
+            isLandingPage && (
+              <div className="flex gap-2">
+                <Button variant="ghost" asChild className="text-sm px-4">
+                  <Link href="/login">Sign in</Link>
+                </Button>
+                <Button size="sm" asChild className="text-sm px-4">
+                  <Link href="/create-account">Get Started</Link>
+                </Button>
+              </div>
+            )
+          )}
+
+          {/* Theme Toggle */}
+          <div className="pl-3 border-l border-gray-200 dark:border-gray-800">
             <ThemeToggle />
           </div>
         </div>

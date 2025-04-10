@@ -27,12 +27,12 @@ const SearchAndButton = ({
           onChange={(e) => onSearch?.(e.target.value)}
         />
       </div>
-      <Link href="/new-project">
+      {/* <Link href="/new-project">
         <Button className={cn(violetBtnStyles, 'h-9 font-medium')}>
           <Plus className="w-4 h-4 mr-2" />
           New project
         </Button>
-      </Link>
+      </Link> */}
     </div>
   );
 };

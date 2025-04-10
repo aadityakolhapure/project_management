@@ -1,26 +1,26 @@
-'use client';
-import React from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Loader2, Plus, Upload } from 'lucide-react';
-import { Button } from './ui/button';
-import { cn } from '@/lib/utils';
-import { primaryBtnStyles } from '@/app/commonStyles';
-import { createClient } from '@/utils/supabase/client';
-import { toast } from './ui/use-toast';
+"use client";
+import React from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Loader2, Plus, Upload } from "lucide-react";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
+import { primaryBtnStyles } from "@/app/commonStyles";
+import { createClient } from "@/utils/supabase/client";
+import { toast } from "./ui/use-toast";
 
 interface ProfilePhotoUploaderProps {
   currentPhotoUrl?: string;
-  userProvider?: 'email' | 'google' | 'github';
+  userProvider?: "email" | "google" | "github";
   onPhotoUploaded?: (url: string) => Promise<void>;
   className?: string;
 }
 
 const STORAGE_URL = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL;
-const BUCKET_NAME = 'profile_photos';
+const BUCKET_NAME = "profile_photos";
 
 export const ProfilePhotoUploader: React.FC<ProfilePhotoUploaderProps> = ({
   currentPhotoUrl,
-  userProvider = 'email',
+  userProvider = "email",
   onPhotoUploaded,
   className,
 }) => {
@@ -33,11 +33,11 @@ export const ProfilePhotoUploader: React.FC<ProfilePhotoUploaderProps> = ({
     if (!file) return;
 
     // Validate file type
-    if (!file.type.startsWith('image/')) {
+    if (!file.type.startsWith("image/")) {
       toast({
-        variant: 'destructive',
-        title: 'Invalid file type',
-        description: 'Please select an image file.',
+        variant: "destructive",
+        title: "Invalid file type",
+        description: "Please select an image file.",
       });
       return;
     }
@@ -46,7 +46,7 @@ export const ProfilePhotoUploader: React.FC<ProfilePhotoUploaderProps> = ({
       setIsUploading(true);
 
       // Create unique filename
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `${crypto.randomUUID()}.${fileExt}`;
       const filePath = `${fileName}`;
 
@@ -62,14 +62,14 @@ export const ProfilePhotoUploader: React.FC<ProfilePhotoUploaderProps> = ({
       await onPhotoUploaded?.(fullUrl);
 
       toast({
-        title: 'Success',
-        description: 'Profile photo updated successfully.',
+        title: "Success",
+        description: "Profile photo updated successfully.",
       });
     } catch (error: any) {
-      console.error('Error uploading file:', error);
+      console.error("Error uploading file:", error);
       toast({
-        variant: 'destructive',
-        title: 'Error uploading file',
+        variant: "destructive",
+        title: "Error uploading file",
         description: error.message,
       });
     } finally {
@@ -78,28 +78,32 @@ export const ProfilePhotoUploader: React.FC<ProfilePhotoUploaderProps> = ({
   };
 
   return (
-    <div className={cn('w-fit relative', className)}>
-      <Avatar className="w-48 h-48">
-        <AvatarImage src={currentPhotoUrl} />
-        <AvatarFallback>{currentPhotoUrl ? '' : 'CN'}</AvatarFallback>
+    <div className={cn("w-fit relative", className)}>
+      <Avatar className="w-48 h-48 border-4 border-purple-500">
+        <AvatarImage
+          src={currentPhotoUrl || "/default-user.webp"}
+          onError={(e) => {
+            // If image fails to load, fallback to default
+            (e.target as HTMLImageElement).src = "/default-user.webp";
+          }}
+        />
+        <AvatarFallback>CN</AvatarFallback>
       </Avatar>
 
       {/* Only show upload button for email users */}
-      {userProvider === 'email' && (
+      {userProvider === "email" && (
         <>
           <Button
             className={cn(
               primaryBtnStyles,
-              'w-8 h-8 p-2 rounded-full absolute right-[-15px] top-[60%]'
+              "w-8 h-8 p-2 rounded-full absolute right-[-15px] top-[60%]"
             )}
             onClick={() => inputRef.current?.click()}
             disabled={isUploading}
           >
-            {isUploading ? (
+            {isUploading ?
               <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Upload className="h-4 w-4" />
-            )}
+            : <Upload className="h-4 w-4" />}
           </Button>
           <input
             ref={inputRef}
@@ -111,7 +115,7 @@ export const ProfilePhotoUploader: React.FC<ProfilePhotoUploaderProps> = ({
         </>
       )}
       {/* Show provider badge for OAuth users */}
-      {userProvider !== 'email' && (
+      {userProvider !== "email" && (
         <div className="absolute bottom-2 right-2 bg-muted/80 px-2 py-1 rounded-md text-xs">
           Via {userProvider}
         </div>
