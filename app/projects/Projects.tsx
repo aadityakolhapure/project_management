@@ -9,6 +9,7 @@ import { DeleteProjectDialog } from "./components/DeleteProjectDialog";
 import { ReopenProjectDialog } from "./components/ReopenProjectDialog";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import { LayoutGrid } from "lucide-react";
 import {
   PieChart,
   Pie,
@@ -17,6 +18,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { Folder, PlayCircle, XCircle, RefreshCcw } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
+
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -48,6 +52,13 @@ export const Projects = ({
         return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
       });
   }, [availableProjects, searchTerm, sortOrder]);
+
+  const projectDateGraphData = useMemo(() => {
+    return availableProjects.map((project) => ({
+      name: project.name,
+      createdAt: new Date(project.created_at).getTime(), // Convert date to timestamp
+    }));
+  }, [availableProjects]);
 
   const activeProjects = filteredProjects.filter((p) => !p.closed);
   const closedProjects = filteredProjects.filter((p) => p.closed);
@@ -107,6 +118,22 @@ export const Projects = ({
     }
   };
 
+  const projectCreationData = useMemo(() => {
+    const groupedByDate: { [key: string]: number } = {};
+
+    availableProjects.forEach((project) => {
+      const dateStr = new Date(project.created_at).toISOString().split("T")[0]; // YYYY-MM-DD
+      groupedByDate[dateStr] = (groupedByDate[dateStr] || 0) + 1;
+    });
+
+    const sortedDates = Object.keys(groupedByDate).sort();
+
+    return sortedDates.map((date) => ({
+      date,
+      count: groupedByDate[date],
+    }));
+  }, [availableProjects]);
+
   const handleDeleteProject = async () => {
     if (!projectToDelete) return;
     try {
@@ -141,21 +168,41 @@ export const Projects = ({
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
-                  Project Status Overview
+                  DASHBOARD
                 </h2>
                 <div className="mt-1 h-1 w-24 rounded bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500" />
               </div>
 
-              <Link href="/new-project">
-                <Button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded shadow flex items-center transition-all duration-200">
-                  <Plus className="w-4 h-4 mr-2" />
-                  New Project
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+                {/* New Project Button */}
+                <Link href="/new-project">
+                  <Button className="bg-gradient-to-r from-green-500 via-green-500 to-emerald-500 hover:transform hover:scale-105 text-white font-semibold py-2 px-4 rounded shadow flex items-center transition-all duration-200">
+                    <Plus className="w-4 h-4 mr-2" />
+                    New Project
+                  </Button>
+                </Link>
+
+                {/* Scroll to Projects Button */}
+                <Button
+                  className="bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500 hover:transform hover:scale-105 text-white font-semibold py-2 px-4 rounded shadow flex items-center transition-all duration-200"
+                  onClick={() => {
+                    const el = document.getElementById("project-tabs");
+                    if (el) {
+                      el.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
+                >
+                  <LayoutGrid className="w-4 h-4 mr-2" />
+                  Projects
                 </Button>
-              </Link>
+              </div>
             </div>
           </div>
 
-          <div className="w-full h-[300px] sm:h-[360px] md:h-[400px]">
+          <Card className="w-full h-full sm:h-72 mb-6 shadow-md bg-white p-5 dark:bg-zinc-900 border border-muted-foreground/10 rounded-xl hover:shadow-lg transition duration-200">
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+              Project Status Distribution
+            </h3>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -191,22 +238,90 @@ export const Projects = ({
                 />
               </PieChart>
             </ResponsiveContainer>
+          </Card>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:grid-cols-4 mt-6">
+            <Card className="p-6 shadow-md bg-white dark:bg-zinc-900 border border-muted-foreground/10 rounded-xl hover:shadow-lg transition duration-200">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-full">
+                  <Folder className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div>
+                  <h4 className="text-sm text-gray-500 dark:text-gray-400">
+                    Total Projects
+                  </h4>
+                  <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {availableProjects.length}
+                  </span>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 shadow-md bg-white dark:bg-zinc-900 border border-muted-foreground/10 rounded-xl hover:shadow-lg transition duration-200">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-full">
+                  <PlayCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+                </div>
+                <div>
+                  <h4 className="text-sm text-gray-500 dark:text-gray-400">
+                    Active Projects
+                  </h4>
+                  <span className="text-2xl font-bold text-green-600 dark:text-green-400">
+                    {activeProjects.length}
+                  </span>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 shadow-md bg-white dark:bg-zinc-900 border border-muted-foreground/10 rounded-xl hover:shadow-lg transition duration-200">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-red-100 dark:bg-red-900/20 rounded-full">
+                  <XCircle className="w-6 h-6 text-red-600 dark:text-red-400" />
+                </div>
+                <div>
+                  <h4 className="text-sm text-gray-500 dark:text-gray-400">
+                    Closed Projects
+                  </h4>
+                  <span className="text-2xl font-bold text-red-600 dark:text-red-400">
+                    {closedProjects.length}
+                  </span>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 shadow-md bg-white dark:bg-zinc-900 border border-muted-foreground/10 rounded-xl hover:shadow-lg transition duration-200">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-yellow-100 dark:bg-yellow-900/20 rounded-full">
+                  <RefreshCcw className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+                </div>
+                <div>
+                  <h4 className="text-sm text-gray-500 dark:text-gray-400">
+                    Reopened Projects
+                  </h4>
+                  <span className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+                    0
+                  </span>
+                </div>
+              </div>
+            </Card>
           </div>
         </CardContent>
       </Card>
 
-      <ProjectTabs
-        activeProjects={activeProjects}
-        closedProjects={closedProjects}
-        allProjects={filteredProjects}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        sortOrder={sortOrder}
-        onSort={handleSort}
-        setProjectToClose={setProjectToClose}
-        setProjectToReopen={setProjectToReopen}
-        setProjectToDelete={setProjectToDelete}
-      />
+      <div id="project-tabs">
+        <ProjectTabs
+          activeProjects={activeProjects}
+          closedProjects={closedProjects}
+          allProjects={filteredProjects}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          sortOrder={sortOrder}
+          onSort={handleSort}
+          setProjectToClose={setProjectToClose}
+          setProjectToReopen={setProjectToReopen}
+          setProjectToDelete={setProjectToDelete}
+        />
+      </div>
 
       <CloseProjectDialog
         open={!!projectToClose}
