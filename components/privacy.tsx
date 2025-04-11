@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 export default function PrivacyAndFeatures() {
   return (
-    <section className="relative py-16 px-6 md:px-10 bg-gradient-to-r from-violet-50 to-purple-100 dark:from-slate-900 dark:to-slate-800 rounded-3xl overflow-hidden">
+    <section className="relative py-16 px-6 md:px-10 bg-gradient-to-br from-violet-50 via-violet-100 to-pink-100 dark:from-slate-900 dark:to-slate-800 overflow-hidden">
       {/* Plus grid background */}
       <div
         aria-hidden="true"
@@ -18,7 +18,7 @@ export default function PrivacyAndFeatures() {
         }}
       />
 
-      <div className="relative z-10 max-w-5xl mx-auto text-center">
+      <div className="relative z-10 max-w-5xl mx-auto text-center bg-[#ebdffe] dark:bg-[#1e1e2d] rounded-3xl p-8 md:p-12 shadow-lg">
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">
           Your knowledge stays private and secure
         </h2>

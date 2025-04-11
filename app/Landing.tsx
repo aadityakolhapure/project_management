@@ -14,6 +14,7 @@ import { BoxRevealDemo } from "@/components/secondModule";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
 import BrainwaveHeroSection from "@/components/firstSection";
 import PrivacySection from "@/components/privacy";
+import {AnimatedBeamMultipleOutputDemo} from "@/components/collob";
 
 const features = [
   "Intuitive Kanban boards",
@@ -69,7 +70,7 @@ const LandingPage: React.FC = () => {
         <AnimatedBeamMultipleOutputDemo />
       </div> */}
 
-      <div className="relative z-10 w-full bg-gradient-to-r from-violet-50 to-purple-100 dark:from-slate-900 dark:to-slate-800 py-16 px-6 md:px-12">
+      <div className="relative z-10 w-full bg-gradient-to-r from-violet-50 to-purple-100 dark:from-slate-900 dark:to-slate-800 py-16 px-6 md:px-12 shadow-lg">
         <div className="container mx-auto text-center">
           <h2 className="text-4xl font-extrabold text-slate-800 dark:text-white mb-4">
             Integrate with your favorite tools
@@ -80,35 +81,35 @@ const LandingPage: React.FC = () => {
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 items-center justify-center">
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col items-center gap-2  hover:scale-110 transition-all duration-300 cursor-pointer">
               <Github className="h-8 w-8 text-gray-700 dark:text-gray-300" />
               <span className="text-sm font-medium dark:text-white">
                 GitHub
               </span>
             </div>
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col items-center gap-2 hover:scale-110 transition-all duration-300 cursor-pointer">
               <NotionIcon />
               <span className="text-sm font-medium dark:text-white">
                 Notion
               </span>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <Chrome className="h-8 w-8 text-gray-700 dark:text-gray-300" />
+            <div className="flex flex-col items-center gap-2 hover:scale-110 transition-all duration-300 cursor-pointer">
+              <Chrome className="h-8 w-8 text-gray-700 dark:text-gray-300 " />
               <span className="text-sm font-medium dark:text-white">
                 Chrome
               </span>
             </div>
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col items-center gap-2 hover:scale-110 transition-all duration-300 cursor-pointer">
               <Slack className="h-8 w-8 text-gray-700 dark:text-gray-300" />
               <span className="text-sm font-medium dark:text-white">Slack</span>
             </div>
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col items-center gap-2 hover:scale-110 transition-all duration-300 cursor-pointer">
               <Database className="h-8 w-8 text-gray-700 dark:text-gray-300" />
               <span className="text-sm font-medium dark:text-white">
                 Supabase
               </span>
             </div>
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col items-center gap-2 hover:scale-110 transition-all duration-300 cursor-pointer">
               <Zap className="h-8 w-8 text-gray-700 dark:text-gray-300" />
               <span className="text-sm font-medium dark:text-white">
                 Zapier
@@ -116,6 +117,9 @@ const LandingPage: React.FC = () => {
             </div>
           </div>
         </div>
+ 
+        {/* <AnimatedBeamMultipleOutputDemo/> */}
+        
       </div>
 
       {/* Background Gradient Effect */}
