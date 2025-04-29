@@ -14,7 +14,7 @@ import { BoxRevealDemo } from "@/components/secondModule";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
 import BrainwaveHeroSection from "@/components/firstSection";
 import PrivacySection from "@/components/privacy";
-import {AnimatedBeamMultipleOutputDemo} from "@/components/collob";
+import { AnimatedBeamMultipleOutputDemo } from "@/components/collob";
 
 const features = [
   "Intuitive Kanban boards",
@@ -63,44 +63,7 @@ const LandingPage: React.FC = () => {
       {/* Hero Section */}
       <BrainwaveHeroSection />
 
-      {/* <div className="container mx-auto text-center py-10 bg-gradient-to-r from-violet-50 to-purple-100 dark:from-slate-900 dark:to-slate-800 ">
-        <h2 className="text-3xl font-bold mb-2">
-          Integrate with your favorite tools
-        </h2>
-        <AnimatedBeamMultipleOutputDemo />
-      </div> */}
-
-       
-        {/* <AnimatedBeamMultipleOutputDemo/> */}
-        
-      </div>
-
-      {/* Background Gradient Effect */}
-      <div className="fixed inset-0 -z-10 h-full w-full bg-background">
-        <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 via-purple-400/5 to-background"></div>
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="h-[40rem] w-[40rem] rounded-full bg-purple-500/5 blur-3xl"></div>
-        </div>
-      </div>
-
-      {/* <div className="h-full w-full bg-gradient-to-r from-violet-100 to-purple-200 dark:from-slate-900 dark:to-slate-800  shadow-inner border">
-        <div className="relative pt-8">
-          <div className="container mx-auto text-center">
-            <h1 className="text-5xl font-extrabold text-gradient-radial from-blue-600 to-violet-400 relative inline-block">
-              Features
-              <span className="absolute left-1/2 bottom-0 w-20 h-1 bg-violet-600 dark:bg-violet-400 rounded-full transform -translate-x-1/2 animate-pulse mt-2"></span>
-            </h1>
-            <p className="mt-4 text-lg text-black/80 dark:text-white/80 max-w-2xl mx-auto">
-              Discover the powerful capabilities of Brainwave AI, designed to
-              optimize workflow automation and enhance productivity.
-            </p>
-          </div>
-        </div>
-
-        <StickyScrollRevealDemo />
-      </div> */}
-
-<PrivacySection />
+      <PrivacySection />
 
       <div className="h-full w-full bg-gradient-to-r from-slate-50 to-slate-200 dark:from-slate-900 dark:to-slate-700 pt-10 pb-10 shadow-inner border">
         <div className="container py-15">
