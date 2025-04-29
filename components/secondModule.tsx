@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { BoxReveal } from "@/components/magicui/box-reveal";
+import Link from "next/link";
 
 export function BoxRevealDemo() {
   return (
@@ -30,8 +31,8 @@ export function BoxRevealDemo() {
             -&gt; Save highlights, take notes, and categorize information
             instantly. <br />
             -&gt; Sync captured data with{" "}
-            <span className="font-semibold text-violet-600">Notion</span>,{" "}
-            <span className="font-semibold text-violet-600">Google Drive</span>,
+            {/* <span className="font-semibold text-violet-600">Notion</span>,{" "}
+            <span className="font-semibold text-violet-600">Google Drive</span>, */}
             and{" "}
             <span className="font-semibold text-violet-600">
               Brainwave AI Workspace
@@ -42,7 +43,9 @@ export function BoxRevealDemo() {
       </BoxReveal>
 
       <BoxReveal boxColor={"#5046e6"} duration={0.5}>
+        <Link href="https://localhost:1111" target="_blank">
         <Button className="mt-[1.6rem] bg-violet-600">Explore</Button>
+        </Link>
       </BoxReveal>
     </div>
   );
